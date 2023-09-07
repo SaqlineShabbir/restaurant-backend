@@ -10,9 +10,11 @@ const port = process.env.PORT;
 
 // connect your server to mongoDb
 const uri = process.env.DATABASE_URL;
-mongoose.connect(uri).then(() => {
-  console.log(`Database connection is successful`.blue.bold);
-});
+mongoose
+  .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log(`Database connection is successful`.blue.bold);
+  });
 
 //check app is listening to the port
 app.listen(port, () => {
