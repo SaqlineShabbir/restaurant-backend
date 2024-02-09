@@ -1,5 +1,5 @@
 const Menu = require('../models/Menu');
-
+const cloudinary = require('cloudinary')
 exports.getMenus = async (req, res, next) => {
   try {
     const menus = await Menu.find({});
@@ -17,7 +17,21 @@ exports.getMenus = async (req, res, next) => {
 
 exports.postMenu = async (req, res, next) => {
   try {
-    const result = await Menu.create(req.body);
+    const { name, description, price, category, quantity, status } = req.body
+    const file = req.file.path;
+    const cloud = await cloudinary.uploader.upload(file);
+
+    const result = await Menu.create({
+      name,
+      description,
+      price,
+      category,
+      quantity,
+      status,
+      photo: cloud?.url
+
+
+    });
     res.status(200).json({
       status: 'success',
       data: result,

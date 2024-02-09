@@ -7,10 +7,18 @@ const userRoute = require('./mongoose/routes/UserRoute');
 const menuRoute = require('./mongoose/routes/MenuRoute');
 const orderRoute = require('./mongoose/routes/OrderRoute');
 const reviewRoute = require('./mongoose/routes/ReviewRoute');
+const cloudinary = require('cloudinary')
 //Middleware
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
+
+// Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
 
 //User posting and getting from database
 app.use('/api', userRoute);
