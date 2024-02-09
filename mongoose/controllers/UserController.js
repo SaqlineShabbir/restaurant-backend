@@ -3,9 +3,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 //user  related requests start
-exports.getUser = async (req, res, next) => {
+exports.getUsers = async (req, res, next) => {
   try {
-    const result = await User.find({ name: req.body.name });
+    const result = await User.find({});
 
     res.status(200).json({
       status: 'success',
@@ -36,7 +36,9 @@ exports.createUser = async (req, res, next) => {
     const role = 'user';
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     //token
-    const token = jwt.sign({ _id: User._id }, process.env.SECRET_KEY);
+    const token = jwt.sign({ _id: User._id }, process.env.SECRET_KEY, {
+      expiresIn: '24h',
+    });
 
     const result = await User.create({
       ...req.body,
@@ -78,12 +80,13 @@ exports.loginUser = async (req, res, next) => {
     if (isExist && isValidPassword) {
       //jwt token
       const token = await isExist.generateAuthToken();
-      console.log('to..', token);
+
       //cookie
 
-      res.cookie('jwt', token, {
-        expires: new Date(Date.now() + 25892000000),
+      res.cookie("jwt", token, {
+        maxAge: 24 * 60 * 60 * 1000,
         httpOnly: true,
+        sameSite: 'None',
       });
 
       res.status(200).json({
