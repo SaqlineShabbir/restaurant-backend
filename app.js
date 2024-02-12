@@ -14,17 +14,18 @@ app.use(express.json());
 app.use(cookieParser());
 //
 // extrernal middlewares
-const corsOptions = {
-  origin: "*",
-  credentials: true,
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: 'Content-Type,Authorization',
-};
 
-app.use(cors(corsOptions));
+
+app.use(cors());
 
 // Handling preflight requests
-app.options('*', cors(corsOptions));
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+})
+
+
 // Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
