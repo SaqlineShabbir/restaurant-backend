@@ -12,15 +12,19 @@ const cloudinary = require('cloudinary')
 app.use(express.json());
 // app.use(cors());
 app.use(cookieParser());
-
+//
 // extrernal middlewares
-app.use(cors({
+const corsOptions = {
   origin: ["https://restaurant-sage-theta.vercel.app", "http://localhost:5173"],
-
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
-}));
+};
+
+app.use(cors(corsOptions));
+
+// Handling preflight requests
+app.options('*', cors(corsOptions));
 // Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
