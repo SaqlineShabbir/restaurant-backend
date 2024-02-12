@@ -74,26 +74,34 @@ exports.loginUser = async (req, res, next) => {
     }
 
     //  check user exist or not
-    const isExist = await User.findOne({ email: email }, { password: 0 });
+    const isExist = await User.findOne({ email: email });
     //check password matches with database
     const isValidPassword = await bcrypt.compare(password, isExist.password);
-    console.log(isExist)
+
     if (isExist && isValidPassword) {
       //jwt token
       const token = await isExist.generateAuthToken();
 
-      //cookie
 
+      //cookie
       res.cookie("jwt", token, {
         maxAge: 24 * 60 * 60 * 1000,
         httpOnly: true,
         sameSite: 'None',
       });
 
+      const responseData = {
+        _id: isExist._id,
+        name: isExist.name,
+        email: isExist.email,
+        role: isExist.role,
+        photo: isExist.photo
+        // Add more fields as needed, excluding the password
+      };
       res.status(200).json({
         status: 'success',
         message: 'user Logged in successfully',
-        data: isExist,
+        data: responseData,
         token: token,
       });
     } else {
