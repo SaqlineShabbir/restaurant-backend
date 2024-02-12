@@ -10,5 +10,6 @@ router
   .post(upload.single('photo'), menuController.postMenu)
   .get(menuController.getMenus);
 router.route('/:id').get(menuController.getMenuById);
+router.route('/:id').delete(menuController.deleteMenu);
 
 module.exports = router;

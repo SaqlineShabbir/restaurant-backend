@@ -59,3 +59,18 @@ exports.getMenuById = async (req, res, next) => {
     });
   }
 };
+exports.deleteMenu = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const deletemenu = await Menu.findByIdAndDelete({ _id: id });
+    res.status(200).json({
+      status: 'success',
+      data: deletemenu,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'Failed',
+      message: err.message,
+    });
+  }
+};
