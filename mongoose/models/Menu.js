@@ -22,14 +22,12 @@ const MenuSchema = mongoose.Schema(
     },
     photo: {
       type: String,
+      required: [true, 'photo required'],
       required: [true, 'please provide photo'],
     },
     category: {
       type: String,
       required: [true, 'please provide category name'],
-    },
-    quantity: {
-      type: Number,
     },
     status: {
       type: String,
@@ -37,6 +35,9 @@ const MenuSchema = mongoose.Schema(
       enum: {
         values: ['in-stock', 'out-of-stock'],
       },
+    },
+    quantity: {
+      type: Number,
     },
   },
   { timeStamp: new Date() }

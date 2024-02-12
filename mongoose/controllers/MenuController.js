@@ -17,11 +17,10 @@ exports.getMenus = async (req, res, next) => {
 
 exports.postMenu = async (req, res, next) => {
   try {
-    console.log(req.body)
+
     const { name, description, price, category, quantity, status } = req.body
     const file = req.file.path;
     const cloud = await cloudinary.uploader.upload(file);
-    console.log(file)
 
     const result = await Menu.create({
       name,
@@ -31,11 +30,9 @@ exports.postMenu = async (req, res, next) => {
       quantity,
       status,
       photo: cloud?.url
-
-
     });
 
-    console.log(result)
+
     res.status(200).json({
       status: 'success',
       data: result,
