@@ -64,6 +64,7 @@ exports.createUser = async (req, res, next) => {
 exports.loginUser = async (req, res, next) => {
   try {
     //if empty form
+
     const { email, password } = req.body;
     if (!email || !password) {
       return res.status(400).json({
@@ -73,10 +74,10 @@ exports.loginUser = async (req, res, next) => {
     }
 
     //  check user exist or not
-    const isExist = await User.findOne({ email: email });
+    const isExist = await User.findOne({ email: email }, { password: 0 });
     //check password matches with database
     const isValidPassword = await bcrypt.compare(password, isExist.password);
-
+    console.log(isExist)
     if (isExist && isValidPassword) {
       //jwt token
       const token = await isExist.generateAuthToken();
@@ -109,10 +110,10 @@ exports.loginUser = async (req, res, next) => {
   }
 };
 
-exports.makeAdminUser = async (req, res, next) => {
+exports.makeAdminUser = async (req, res) => {
   try {
     //if empty form
-    const { email } = await req.body;
+    const { email } = req.body;
 
     if (!email) {
       return res.status(400).json({
@@ -127,6 +128,7 @@ exports.makeAdminUser = async (req, res, next) => {
       const makeAdmin = await User.findOneAndUpdate({ email: email }, { role: 'admin' })
 
 
+
       res.status(200).json({
         status: 'success',
         message: 'successfully made',
@@ -136,7 +138,7 @@ exports.makeAdminUser = async (req, res, next) => {
     } else {
       return res.status(400).json({
         status: 'Failed',
-        message: 'failed',
+        message: 'user dosent exist',
       });
     }
   } catch (error) {

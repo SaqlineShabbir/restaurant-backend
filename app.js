@@ -46,11 +46,11 @@ app.use('/api/review', reviewRoute);
 app.get('/', (req, res) => {
   res.send('Route is working');
 });
-app.get('/cookie', (req, res) => {
-  res.cookie('test', 'sabcookie').send();
-  console.log(res.cookie);
-  console.log(cookieParser);
-  res.send('Route is working');
-});
+// app.get('/cookie', (req, res) => {
+//   res.cookie('test', 'sabcookie').send();
+//   console.log(res.cookie);
+//   console.log(cookieParser);
+//   res.send('Route is working');
+// });
 
 module.exports = app;
