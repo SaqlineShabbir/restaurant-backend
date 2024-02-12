@@ -14,13 +14,13 @@ app.use(express.json());
 app.use(cookieParser());
 //
 // extrernal middlewares
-// const corsOptions = {
-//   origin: ['http://localhost:5173', 'https://restaurant-sage-theta.vercel.app'],
-//   credentials: true,
-//   optionSuccessStatus: 200,
-// }
+const corsOptions = {
+  origin: ['http://localhost:5173', 'https://restaurant-sage-theta.vercel.app'],
+  credentials: true,
+  optionSuccessStatus: 200,
+}
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Handling preflight requests
 app.use((req, res, next) => {
