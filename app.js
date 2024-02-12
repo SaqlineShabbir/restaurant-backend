@@ -10,9 +10,17 @@ const reviewRoute = require('./mongoose/routes/ReviewRoute');
 const cloudinary = require('cloudinary')
 //Middleware
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
 app.use(cookieParser());
 
+// extrernal middlewares
+app.use(cors({
+  origin: ["https://restaurant-sage-theta.vercel.app", "http://localhost:5173"],
+
+  credentials: true,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: 'Content-Type,Authorization',
+}));
 // Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
