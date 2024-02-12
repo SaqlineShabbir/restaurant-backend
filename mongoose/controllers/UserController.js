@@ -108,3 +108,41 @@ exports.loginUser = async (req, res, next) => {
     });
   }
 };
+
+exports.makeAdminUser = async (req, res, next) => {
+  try {
+    //if empty form
+    const { email } = await req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        status: 'Failed',
+        message: 'please fill up form data',
+      });
+    }
+
+    //  check user exist or not
+    const isExist = await User.findOne({ email: email });
+    if (isExist) {
+      const makeAdmin = await User.findOneAndUpdate({ email: email }, { role: 'admin' })
+
+
+      res.status(200).json({
+        status: 'success',
+        message: 'successfully made',
+        makeAdmin
+
+      });
+    } else {
+      return res.status(400).json({
+        status: 'Failed',
+        message: 'failed',
+      });
+    }
+  } catch (error) {
+    res.status(404).json({
+      status: 'error',
+      message: 'failed',
+    });
+  }
+};
