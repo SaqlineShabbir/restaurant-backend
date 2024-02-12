@@ -14,9 +14,13 @@ app.use(express.json());
 app.use(cookieParser());
 //
 // extrernal middlewares
+const corsOptions = {
+  origin: '*',
+  credentials: true,
+  optionSuccessStatus: 200,
+}
 
-
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Handling preflight requests
 app.use(function (req, res, next) {
