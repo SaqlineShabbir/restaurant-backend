@@ -15,7 +15,7 @@ app.use(cookieParser());
 //
 // extrernal middlewares
 const corsOptions = {
-  origin: ["https://restaurant-sage-theta.vercel.app", "http://localhost:5173"],
+  origin: "*",
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
