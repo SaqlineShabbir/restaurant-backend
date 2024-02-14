@@ -19,6 +19,7 @@ exports.postOrder = async (req, res, next) => {
   try {
     const isExist = await Order.findOne({ name: req.body.name });
     const selectedOrderId = isExist?._id;
+    console.log(req)
 
     if (isExist) {
       const updateResult = await Order.updateOne(
@@ -34,7 +35,7 @@ exports.postOrder = async (req, res, next) => {
     } else {
       const result = await Order.create({
         ...req.body,
-        user: req.user,
+        // user: req.user,
       });
       res.status(200).json({
         status: 'success',

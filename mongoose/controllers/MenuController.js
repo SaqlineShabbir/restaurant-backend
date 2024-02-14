@@ -21,7 +21,7 @@ exports.postMenu = async (req, res, next) => {
     const { name, description, price, category, quantity, status } = req.body
     const file = req.file.path;
     const cloud = await cloudinary.uploader.upload(file);
-
+    console.log(file)
     const result = await Menu.create({
       name,
       description,
